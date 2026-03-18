@@ -29,6 +29,7 @@ interface AuthContextType {
   hasPermission: (perm: string) => boolean;
   hasRole: (role: AppRole) => boolean;
   signOut: () => Promise<void>;
+  refreshProfile: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -123,9 +124,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setPermissions([]);
   }, []);
 
+  const refreshProfile = useCallback(async () => {
+    if (user) await fetchUserData(user.id);
+  }, [user, fetchUserData]);
+
   return (
     <AuthContext.Provider
-      value={{ user, session, profile, roles, permissions, loading, isSuperAdmin, hasPermission, hasRole, signOut }}
+      value={{ user, session, profile, roles, permissions, loading, isSuperAdmin, hasPermission, hasRole, signOut, refreshProfile }}
     >
       {children}
     </AuthContext.Provider>

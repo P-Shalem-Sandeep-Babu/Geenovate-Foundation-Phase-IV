@@ -18,7 +18,7 @@ export default function ChangePassword() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { profile } = useAuth();
+  const { profile, refreshProfile } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,6 +39,7 @@ export default function ChangePassword() {
     }
     if (profile) {
       await supabase.from("profiles").update({ must_change_password: false }).eq("user_id", profile.user_id);
+      await refreshProfile();
     }
     setLoading(false);
     toast({ title: "Password updated", description: "Welcome to the platform." });
