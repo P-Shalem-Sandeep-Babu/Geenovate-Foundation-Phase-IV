@@ -1,73 +1,92 @@
-# Welcome to your Lovable project
+# Geenovate Ascent Platform (Phase III)
 
-## Project info
+Welcome to Phase III of the **Geenovate Ascent** Incubation Platform! This is an enterprise-grade web application designed to manage the entire lifecycle of startup incubation—from initial idea submission and mentor evaluation to cohort management and final pitch days.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## 🚀 Tech Stack
 
-## How can I edit this code?
+- **Frontend Framework:** React 18, Vite, TypeScript
+- **Styling & Components:** Tailwind CSS, Shadcn UI (Radix UI)
+- **State Management:** React Query (TanStack Query v5)
+- **Routing:** React Router v6
+- **Backend & Auth:** Supabase (Database, Auth, Row Level Security, Edge Functions)
 
-There are several ways of editing your application.
+## ✨ Core Features
 
-**Use Lovable**
+1. **Idea & Startup Lifecycle Management**
+   - Founders can submit Startup Ideas outlining problems, solutions, and domains.
+   - Admins can review, approve, and automatically convert concepts into fully-fledged "Startups."
+   - Startups have visual health checks, task completion metrics, and mentor evaluations.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+2. **Mentor Scorecards**
+   - Assigned mentors can evaluate startups across key parameters (Innovation, Market, Execution, Team).
+   - Real-time aggregation of scores gives admins immediate insight into startup viability.
 
-Changes made via Lovable will be committed automatically to this repo.
+3. **Cohort Operations**
+   - Group startups and users into organized Cohorts.
+   - Assign targeted tasks and deadlines to Cohort members.
+   - Members can submit deliverables; Mentors can leave feedback ratings.
 
-**Use your preferred IDE**
+4. **In-App Notifications & Activity Timeline**
+   - Robust polling notification engine ensuring users are alerted whenever tasks are assigned or ideas are reviewed.
+   - Real-time Activity Logs populate dashboard timelines so administrators can track platform engagement instantly.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+5. **Strict Role-Based Access Control (RBAC)**
+   - **Super Admin:** Full platform visibility and destructive capabilities.
+   - **Mentor:** Custom dashboard view restricting visibility to *only* assigned startups and cohorts.
+   - **Professional/Founder:** Restricted interface to interact strictly with their own startups and assignments.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+6. **Search, Filter & Export (CSV)**
+   - Lightning-fast client-side search across domains and names.
+   - Categorized filtering by startup status and stage.
+   - 1-click native CSV exports on Startups, Ideas, and Cohorts for external reporting.
 
-Follow these steps:
+## 🛠️ Local Development Setup
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+To run this platform locally, follow these steps:
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### 1. Prerequisites
+- Node.js (v18+)
+- npm or yarn
+- Supabase CLI (if running the database locally)
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+### 2. Clone and Install
+```bash
+git clone https://github.com/your-org/geenovate-ascent.git
+cd geenovate-ascent
+npm install
 ```
 
-**Edit a file directly in GitHub**
+### 3. Environment Variables
+Create a `.env` file in the root directory (you can copy `.env.example` if it exists) and fill in your Supabase details:
+```env
+VITE_SUPABASE_URL=https://your-project-url.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
+```
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### 4. Database Migrations
+If you are linking this to a live Supabase project, execute the SQL migration files located in `supabase/migrations/`. These files hold all Tables, Columns, Row Level Security Policies, and Postgres Functions required for Phase III to run.
 
-**Use GitHub Codespaces**
+To apply them via CLI:
+```bash
+npx supabase db push
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### 5. Running the App
+Start the Vite development server:
+```bash
+npm run dev
+```
+Navigate to `http://localhost:8080` to see the application running.
 
-## What technologies are used for this project?
+## 📦 Deployment (Render)
 
-This project is built with:
+This project has been pre-configured for seamless automated deployment to **Render** using Blueprint.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+1. Ensure the `render.yaml` file is pushed to your GitHub repository.
+2. Link the repository to your Render account via the "New +" -> "Blueprint" flow.
+3. Render will automatically read the `render.yaml`, execute the correct `npm run build` commands, publish the `dist` directory, and apply the SPA Rewrite routing rules (`/*` -> `/index.html`).
+4. Enter your Supabase environment variables when prompted by the Render dashboard.
 
-## How can I deploy this project?
+## 🔒 Security
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+All tables are heavily protected by **Row Level Security (RLS)** within Supabase. Do not disable RLS on the live database. The platform relies on Supabase Auth policies (`auth.uid()`) to restrict data access accurately based on DB user profiles.
