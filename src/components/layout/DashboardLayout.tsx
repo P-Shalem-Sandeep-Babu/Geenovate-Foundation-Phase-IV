@@ -55,14 +55,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <Link
         to={l.path}
         onClick={() => setSidebarOpen(false)}
-        className={`group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 relative ${
-          active ? "bg-sidebar-primary/10 text-sidebar-primary" : "text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50"
+        className={`group flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all duration-300 relative overflow-hidden ${
+          active ? "text-sidebar-primary shadow-[0_0_15px_rgba(99,102,241,0.2)]" : "text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-foreground/5"
         }`}
       >
-        {active && <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-sidebar-primary rounded-r-full" />}
-        <l.icon className={`h-4 w-4 shrink-0 transition-colors ${active ? "text-sidebar-primary" : "text-sidebar-foreground/50 group-hover:text-sidebar-foreground"}`} />
-        <span className="flex-1">{l.label}</span>
-        {active && <ChevronRight className="h-3 w-3 text-sidebar-primary/50" />}
+        {active && (
+          <motion.div
+            layoutId="activeNavBackground"
+            className="absolute inset-0 bg-gradient-to-r from-sidebar-primary/20 to-transparent border-l-[3px] border-sidebar-primary"
+            initial={false}
+            transition={{ type: "spring", stiffness: 350, damping: 30 }}
+          />
+        )}
+        <l.icon className={`h-5 w-5 shrink-0 transition-all duration-300 relative z-10 ${active ? "text-sidebar-primary scale-110" : "text-sidebar-foreground/50 group-hover:scale-110 group-hover:text-sidebar-foreground"}`} />
+        <span className="flex-1 relative z-10">{l.label}</span>
       </Link>
     );
   };
@@ -126,11 +132,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   );
 
   return (
-    <div className="min-h-screen flex bg-background">
+    <div className="min-h-screen flex bg-background relative overflow-hidden">
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/20 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-accent/20 rounded-full blur-[100px] pointer-events-none" />
+      
       {/* Desktop sidebar */}
-      <aside className="hidden lg:flex flex-col w-64 border-r bg-sidebar shrink-0">
-        <div className="p-5 border-b flex items-center justify-between">
-          <img src={logo} alt="Geenovate" className="h-9" />
+      <aside className="hidden lg:flex flex-col w-64 border-r border-white/5 bg-background/40 backdrop-blur-xl shrink-0 relative z-10">
+        <div className="p-5 border-b border-white/5 flex items-center justify-between">
+          <img src={logo} alt="Geenovate" className="h-9 relative z-10 drop-shadow-lg" />
           <div className="relative">
             <button
               onClick={() => setNotifOpen(v => !v)}
@@ -155,8 +164,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </aside>
 
       {/* Mobile */}
-      <div className="flex-1 flex flex-col min-w-0">
-        <header className="lg:hidden sticky top-0 z-50 border-b bg-background/90 backdrop-blur-lg">
+      <div className="flex-1 flex flex-col min-w-0 relative z-10">
+        <header className="lg:hidden sticky top-0 z-50 border-b border-white/5 bg-background/60 backdrop-blur-2xl">
           <div className="flex items-center justify-between h-14 px-4">
             <img src={logo} alt="Geenovate" className="h-8" />
             <div className="flex items-center gap-2">

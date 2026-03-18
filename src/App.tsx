@@ -29,34 +29,42 @@ const DashboardPage = ({ children, permission }: {
   </ProtectedRoute>
 );
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <AuthProvider>
-          <Routes>
-            <Route path="/" element={<Navigate to="/login" replace />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/change-password" element={<ChangePassword />} />
+const App = () => {
+  import('react').then(({ useEffect }) => {
+    useEffect(() => {
+      document.documentElement.classList.add("dark");
+    }, []);
+  });
 
-            <Route path="/dashboard" element={<DashboardPage><DashboardHome /></DashboardPage>} />
-            <Route path="/dashboard/users" element={<DashboardPage permission="users.view"><UsersPage /></DashboardPage>} />
-            <Route path="/dashboard/cohorts" element={<DashboardPage permission="cohorts.view"><CohortsPage /></DashboardPage>} />
-            <Route path="/dashboard/ideas" element={<DashboardPage><IdeasPage /></DashboardPage>} />
-            <Route path="/dashboard/startups" element={<DashboardPage><StartupsPage /></DashboardPage>} />
-            <Route path="/dashboard/profile" element={<DashboardPage><ProfilePage /></DashboardPage>} />
-            <Route path="/dashboard/announcements" element={<DashboardPage permission="announcements.view"><AnnouncementsManagePage /></DashboardPage>} />
-            <Route path="/dashboard/audit-logs" element={<DashboardPage permission="audit.view"><AuditLogsPage /></DashboardPage>} />
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <AuthProvider>
+            <Routes>
+              <Route path="/" element={<Navigate to="/login" replace />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/change-password" element={<ChangePassword />} />
 
-            <Route path="*" element={<Navigate to="/dashboard" replace />} />
-          </Routes>
-        </AuthProvider>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+              <Route path="/dashboard" element={<DashboardPage><DashboardHome /></DashboardPage>} />
+              <Route path="/dashboard/users" element={<DashboardPage permission="users.view"><UsersPage /></DashboardPage>} />
+              <Route path="/dashboard/cohorts" element={<DashboardPage permission="cohorts.view"><CohortsPage /></DashboardPage>} />
+              <Route path="/dashboard/ideas" element={<DashboardPage><IdeasPage /></DashboardPage>} />
+              <Route path="/dashboard/startups" element={<DashboardPage><StartupsPage /></DashboardPage>} />
+              <Route path="/dashboard/profile" element={<DashboardPage><ProfilePage /></DashboardPage>} />
+              <Route path="/dashboard/announcements" element={<DashboardPage permission="announcements.view"><AnnouncementsManagePage /></DashboardPage>} />
+              <Route path="/dashboard/audit-logs" element={<DashboardPage permission="audit.view"><AuditLogsPage /></DashboardPage>} />
+
+              <Route path="*" element={<Navigate to="/dashboard" replace />} />
+            </Routes>
+          </AuthProvider>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

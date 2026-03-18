@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { motion } from "framer-motion";
 import {
   Plus, Archive, RotateCcw, ChevronRight, Users, BookOpen,
   ClipboardList, Link2, Star, Trash2, Edit2, X, FileText, Video, Globe,
@@ -59,10 +60,10 @@ function cohortStatus(c: Cohort): "active" | "expired" | "archived" | "upcoming"
 }
 
 const STATUS_BADGE: Record<string, { label: string; className: string }> = {
-  active:   { label: "Active",    className: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400" },
-  expired:  { label: "Expired",   className: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400" },
-  archived: { label: "Archived",  className: "bg-muted text-muted-foreground" },
-  upcoming: { label: "Upcoming",  className: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400" },
+  active:   { label: "Active",    className: "bg-emerald-500/15 text-emerald-500 border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.1)]" },
+  expired:  { label: "Expired",   className: "bg-red-500/15 text-red-500 border-red-500/20 shadow-[0_0_10px_rgba(239,68,68,0.1)]" },
+  archived: { label: "Archived",  className: "bg-muted text-muted-foreground border-white/5" },
+  upcoming: { label: "Upcoming",  className: "bg-blue-500/15 text-blue-400 border-blue-500/20 shadow-[0_0_10px_rgba(59,130,246,0.1)]" },
 };
 
 function ResourceIcon({ type }: { type: string }) {
@@ -362,7 +363,7 @@ export default function CohortsPage() {
   const unassignedStartups = allStartups.filter(s => s.cohort_id !== selectedCohort?.id);
 
   return (
-    <div className="flex h-full gap-0">
+    <motion.div initial={{ opacity: 0, scale: 0.98, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.4, ease: "easeOut" }} className="flex h-full gap-0">
       {/* Left panel — cohort list */}
       <div className={`flex flex-col ${selectedCohort ? "hidden lg:flex lg:w-80 lg:border-r" : "flex-1"}`}>
         <div className="flex items-center justify-between mb-3">
@@ -374,7 +375,7 @@ export default function CohortsPage() {
               </Button>
             )}
             {isSuperAdmin && (
-              <Button size="sm" onClick={openCreate}>
+              <Button size="sm" variant="gradient" onClick={openCreate} className="shadow-[0_0_15px_rgba(99,102,241,0.3)]">
                 <Plus className="h-4 w-4 mr-1" /> New
               </Button>
             )}
@@ -883,6 +884,6 @@ export default function CohortsPage() {
         </DialogContent>
       </Dialog>
       {ConfirmNode}
-    </div>
+    </motion.div>
   );
 }

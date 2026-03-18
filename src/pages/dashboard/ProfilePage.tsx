@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { motion } from "framer-motion";
 import { UserCircle, Mail, Tag, Lock, Save, Loader2, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -58,10 +59,10 @@ export default function ProfilePage() {
   });
 
   const STATUS_COLOR: Record<string, string> = {
-    active: "bg-green-100 text-green-700 border-green-200",
-    inactive: "bg-muted text-muted-foreground",
-    suspended: "bg-red-100 text-red-700 border-red-200",
-    alumni: "bg-purple-100 text-purple-700 border-purple-200",
+    active: "bg-emerald-500/15 text-emerald-500 border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.1)]",
+    inactive: "bg-muted text-muted-foreground border-white/5",
+    suspended: "bg-red-500/15 text-red-500 border-red-500/20 shadow-[0_0_10px_rgba(239,68,68,0.1)]",
+    alumni: "bg-purple-500/15 text-purple-400 border-purple-500/20 shadow-[0_0_10px_rgba(168,85,247,0.1)]",
   };
 
   const ROLE_LABEL: Record<string, string> = {
@@ -72,7 +73,7 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <motion.div initial={{ opacity: 0, scale: 0.98, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.4, ease: "easeOut" }} className="max-w-2xl mx-auto">
       <div className="mb-6">
         <h1 className="font-display text-2xl font-bold flex items-center gap-2">
           <UserCircle className="h-6 w-6 text-primary" /> My Profile
@@ -144,7 +145,7 @@ export default function ProfilePage() {
             />
             <p className="text-xs text-muted-foreground">Paste a public image URL for your avatar.</p>
           </div>
-          <Button onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending || !formReady} className="w-full">
+          <Button variant="gradient" onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending || !formReady} className="w-full shadow-[0_0_20px_rgba(99,102,241,0.2)] hover:scale-[1.02]">
             {saveMutation.isPending ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" />Saving…</> : <><Save className="h-4 w-4 mr-2" />Save Profile</>}
           </Button>
         </CardContent>
@@ -165,6 +166,6 @@ export default function ProfilePage() {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </motion.div>
   );
 }

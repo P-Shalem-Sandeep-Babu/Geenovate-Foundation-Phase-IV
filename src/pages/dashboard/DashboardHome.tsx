@@ -199,20 +199,20 @@ export default function DashboardHome() {
   };
 
   const statCards = [
-    { label: "Total Users",      value: stats.totalUsers,           icon: Users,         gradient: "from-blue-500/10 to-indigo-500/10",    iconBg: "bg-blue-100 text-blue-600" },
-    { label: "Active Cohorts",   value: stats.activeCohorts,        icon: Calendar,      gradient: "from-violet-500/10 to-purple-500/10",  iconBg: "bg-violet-100 text-violet-600" },
-    { label: "Pending Tasks",    value: stats.pendingTasks,         icon: ClipboardList, gradient: "from-amber-500/10 to-yellow-500/10",   iconBg: "bg-amber-100 text-amber-600" },
-    { label: "Completed Tasks",  value: stats.completedTasks,       icon: TrendingUp,    gradient: "from-green-500/10 to-emerald-500/10", iconBg: "bg-green-100 text-green-600" },
-    { label: "At-Risk Members",  value: stats.atRiskMembers,        icon: AlertTriangle, gradient: "from-red-500/10 to-rose-500/10",       iconBg: "bg-red-100 text-red-600" },
-    { label: "Avg Performance",  value: `${stats.avgPerformance}%`, icon: BarChart3,     gradient: "from-cyan-500/10 to-sky-500/10",      iconBg: "bg-cyan-100 text-cyan-600" },
-    { label: "Startups",         value: stats.totalStartups,        icon: Activity,      gradient: "from-orange-500/10 to-amber-500/10",  iconBg: "bg-orange-100 text-orange-600" },
-    { label: "Submissions",      value: stats.totalSubmissions,     icon: CheckCircle,   gradient: "from-teal-500/10 to-green-500/10",    iconBg: "bg-teal-100 text-teal-600" },
+    { label: "Total Users",      value: stats.totalUsers,           icon: Users,         gradient: "from-blue-500/20 to-indigo-500/20 border-blue-500/20",    iconBg: "bg-blue-500/20 text-blue-400" },
+    { label: "Active Cohorts",   value: stats.activeCohorts,        icon: Calendar,      gradient: "from-violet-500/20 to-purple-500/20 border-violet-500/20",  iconBg: "bg-violet-500/20 text-violet-400" },
+    { label: "Pending Tasks",    value: stats.pendingTasks,         icon: ClipboardList, gradient: "from-amber-500/20 to-yellow-500/20 border-amber-500/20",   iconBg: "bg-amber-500/20 text-amber-400" },
+    { label: "Completed Tasks",  value: stats.completedTasks,       icon: TrendingUp,    gradient: "from-green-500/20 to-emerald-500/20 border-green-500/20", iconBg: "bg-green-500/20 text-green-400" },
+    { label: "At-Risk Members",  value: stats.atRiskMembers,        icon: AlertTriangle, gradient: "from-red-500/20 to-rose-500/20 border-red-500/20",       iconBg: "bg-red-500/20 text-red-400" },
+    { label: "Avg Performance",  value: `${stats.avgPerformance}%`, icon: BarChart3,     gradient: "from-cyan-500/20 to-sky-500/20 border-cyan-500/20",      iconBg: "bg-cyan-500/20 text-cyan-400" },
+    { label: "Startups",         value: stats.totalStartups,        icon: Activity,      gradient: "from-orange-500/20 to-amber-500/20 border-orange-500/20",  iconBg: "bg-orange-500/20 text-orange-400" },
+    { label: "Submissions",      value: stats.totalSubmissions,     icon: CheckCircle,   gradient: "from-teal-500/20 to-green-500/20 border-teal-500/20",    iconBg: "bg-teal-500/20 text-teal-400" },
   ];
 
   const unreadNotifs = notifications.filter(n => !n.is_read).length;
 
   return (
-    <div>
+    <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease: "easeOut" }}>
       <OnboardingBanner />
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
@@ -438,11 +438,11 @@ export default function DashboardHome() {
             </CardContent>
           </Card>
         ) : (
-          <Button size="icon" className="h-12 w-12 rounded-full shadow-lg" onClick={() => setChatOpen(true)}>
-            <BotMessageSquare className="h-5 w-5" />
+          <Button size="icon" variant="gradient" className="h-14 w-14 rounded-full shadow-[0_0_30px_rgba(99,102,241,0.5)] transition-all hover:scale-110" onClick={() => setChatOpen(true)}>
+            <BotMessageSquare className="h-6 w-6" />
           </Button>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }

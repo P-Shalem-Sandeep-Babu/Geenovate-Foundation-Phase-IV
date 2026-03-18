@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { motion } from "framer-motion";
 import {
   Plus, Edit2, Trash2, Users, ClipboardList, Link2, X,
   Rocket, Target, CheckCircle, Clock, ArrowUpRight, Presentation,
@@ -44,9 +45,9 @@ interface StartupScore { id: string; startup_id: string; reviewer_id: string; in
 interface Cohort { id: string; name: string; }
 
 const STATUS_CONFIG: Record<string, { label: string; className: string; icon: React.ReactNode }> = {
-  idea:      { label: "Idea",      className: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400", icon: <Target className="h-3 w-3" /> },
-  building:  { label: "Building",  className: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",   icon: <Rocket className="h-3 w-3" /> },
-  launched:  { label: "Launched",  className: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400", icon: <CheckCircle className="h-3 w-3" /> },
+  idea:      { label: "Idea",      className: "bg-amber-500/15 text-amber-500 border-amber-500/20 shadow-[0_0_10px_rgba(245,158,11,0.1)]", icon: <Target className="h-3 w-3" /> },
+  building:  { label: "Building",  className: "bg-indigo-500/15 text-indigo-400 border-indigo-500/20 shadow-[0_0_10px_rgba(99,102,241,0.1)]",   icon: <Rocket className="h-3 w-3" /> },
+  launched:  { label: "Launched",  className: "bg-emerald-500/15 text-emerald-500 border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.1)]", icon: <CheckCircle className="h-3 w-3" /> },
 };
 
 const STAGES = ["idea", "validation", "prototype", "mvp", "scaling"];
@@ -326,7 +327,7 @@ export default function StartupsPage() {
   const health = useStartupHealth({ totalTasks: tasks.length, completedTasks, stage: selectedStartup?.stage ?? null, avgScore });
 
   return (
-    <div className="flex h-full gap-0">
+    <motion.div initial={{ opacity: 0, scale: 0.98, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.4, ease: "easeOut" }} className="flex h-full gap-0">
       {/* ── Left Panel ── */}
       <div className={`flex flex-col ${selectedStartup ? "hidden lg:flex lg:w-80 lg:border-r" : "flex-1"}`}>
         <div className="flex items-center justify-between mb-3">
@@ -337,7 +338,7 @@ export default function StartupsPage() {
                 <Download className="h-4 w-4" />
               </Button>
             )}
-            {isSuperAdmin && <Button size="sm" onClick={openCreate}><Plus className="h-4 w-4 mr-1" /> New</Button>}
+            {isSuperAdmin && <Button size="sm" variant="gradient" onClick={openCreate} className="shadow-[0_0_15px_rgba(99,102,241,0.3)]"><Plus className="h-4 w-4 mr-1" /> New</Button>}
           </div>
         </div>
         <div className="relative mb-3">
@@ -794,6 +795,6 @@ export default function StartupsPage() {
         </DialogContent>
       </Dialog>
       {ConfirmNode}
-    </div>
+    </motion.div>
   );
 }

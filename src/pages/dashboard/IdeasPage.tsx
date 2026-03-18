@@ -1,6 +1,6 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { motion } from "framer-motion";
 import { Plus, Lightbulb, Eye, MessageSquare, Loader2, Search, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -204,7 +204,7 @@ export default function IdeasPage() {
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <motion.div initial={{ opacity: 0, scale: 0.98, y: 10 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.4, ease: "easeOut" }} className="flex flex-col h-full">
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div>
@@ -220,7 +220,7 @@ export default function IdeasPage() {
               <Download className="h-4 w-4" />Export
             </Button>
           )}
-          <Button onClick={() => { setForm(EMPTY_FORM); setFormError(null); setFormOpen(true); }} className="gap-2">
+          <Button variant="gradient" onClick={() => { setForm(EMPTY_FORM); setFormError(null); setFormOpen(true); }} className="gap-2 shadow-[0_0_20px_rgba(99,102,241,0.3)]">
             <Plus className="h-4 w-4" /> Submit Idea
           </Button>
         </div>
@@ -433,6 +433,6 @@ export default function IdeasPage() {
           </form>
         </DialogContent>
       </Dialog>
-    </div>
+    </motion.div>
   );
 }
