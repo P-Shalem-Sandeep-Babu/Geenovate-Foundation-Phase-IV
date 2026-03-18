@@ -16,11 +16,10 @@ CREATE INDEX IF NOT EXISTS notifications_is_read_idx ON public.notifications(use
 
 ALTER TABLE public.notifications ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Users can view own notifications" ON public.notifications
-    FOR SELECT USING (auth.uid() = user_id);
+-- Note: "Users can view own notifications" and "Users can update own notifications" 
+-- were already created with super_admin support in a previous migration.
 
+-- Allow creating notifications from auth users
+DROP POLICY IF EXISTS "Authenticated users can insert notifications" ON public.notifications;
 CREATE POLICY "Authenticated users can insert notifications" ON public.notifications
     FOR INSERT WITH CHECK (auth.role() = 'authenticated');
-
-CREATE POLICY "Users can update own notifications" ON public.notifications
-    FOR UPDATE USING (auth.uid() = user_id);
