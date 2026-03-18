@@ -1,6 +1,6 @@
-# Geenovate Ascent Platform (Phase III)
+# Geenovate Foundation Incubation Platform (Phase III)
 
-Welcome to Phase III of the **Geenovate Ascent** Incubation Platform! This is an enterprise-grade web application designed to manage the entire lifecycle of startup incubation—from initial idea submission and mentor evaluation to cohort management and final pitch days.
+Welcome to Phase III of the **Geenovate Foundation** Incubation Platform! This is an enterprise-grade web application designed to manage the entire lifecycle of startup incubation—from initial idea submission and mentor evaluation to cohort management and final pitch days.
 
 ## 🚀 Tech Stack
 
@@ -51,7 +51,7 @@ To run this platform locally, follow these steps:
 
 ### 2. Clone and Install
 ```bash
-git clone https://github.com/your-org/geenovate-ascent.git
+git clone https://github.com/P-Shalem-Sandeep-Babu/Geenovate-Foundation-Phase-III
 cd geenovate-ascent
 npm install
 ```
