@@ -29,12 +29,12 @@ const DashboardPage = ({ children, permission }: {
   </ProtectedRoute>
 );
 
+import { useEffect } from "react";
+
 const App = () => {
-  import('react').then(({ useEffect }) => {
-    useEffect(() => {
-      document.documentElement.classList.add("dark");
-    }, []);
-  });
+  useEffect(() => {
+    document.documentElement.classList.add("dark");
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

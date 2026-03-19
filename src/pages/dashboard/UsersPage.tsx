@@ -37,11 +37,11 @@ const STATUS_ICONS: Record<string, React.ReactNode> = {
   alumni:    <GraduationCap className="h-3.5 w-3.5" />,
 };
 
-const STATUS_CLASSES: Record<string, string> = {
-  active:    "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
-  inactive:  "bg-muted text-muted-foreground",
-  suspended: "bg-destructive/10 text-destructive",
-  alumni:    "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
+const STATUS_VARIANTS: Record<string, "active" | "secondary" | "destructive" | "approved"> = {
+  active:    "active",
+  inactive:  "secondary", // mapped dynamically below
+  suspended: "destructive", // mapped dynamically below 
+  alumni:    "approved", // Use approved style (blue) for alumni 
 };
 
 function roleLabel(r: string) {
@@ -283,11 +283,11 @@ export default function UsersPage() {
                     <td className="p-3 text-muted-foreground">{u.email}</td>
                     <td className="p-3">
                       <Badge
-                        variant="secondary"
-                        className={`inline-flex items-center gap-1 ${STATUS_CLASSES[u.status] ?? ""}`}
+                        variant={(STATUS_VARIANTS[u.status] || "secondary") as any}
+                        className="inline-flex items-center gap-1.5"
                       >
                         {STATUS_ICONS[u.status]}
-                        {u.status}
+                        <span className="capitalize">{u.status}</span>
                       </Badge>
                     </td>
                     <td className="p-3 text-muted-foreground">{categoryLabel(u.category)}</td>

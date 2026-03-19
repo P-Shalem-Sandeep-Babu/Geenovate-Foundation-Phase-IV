@@ -183,24 +183,24 @@ export default function AnnouncementsManagePage() {
       {/* List */}
       <div className="space-y-3">
         {filtered.map(a => (
-          <Card key={a.id}>
+          <Card key={a.id} className="card-interactive">
             <CardContent className="p-4 flex items-start gap-4">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap mb-1">
-                  <p className="font-medium">{a.title}</p>
-                  <Badge variant="secondary" className={PRIORITY_CLASSES[a.priority] ?? ""}>
+                  <p className="font-semibold text-base">{a.title}</p>
+                  <Badge variant="secondary" className={`text-xs capitalize ${PRIORITY_CLASSES[a.priority] ?? ""}`}>
                     {a.priority}
                   </Badge>
-                  <Badge variant="outline" className="text-xs">{a.visibility}</Badge>
+                  <Badge variant="outline" className="text-xs capitalize">{a.visibility}</Badge>
                   {a.is_sticky && (
                     <Badge variant="secondary" className="text-xs">Sticky</Badge>
                   )}
                   {a.approved_by_ceo && (
-                    <Badge className="text-xs bg-primary text-primary-foreground">Approved</Badge>
+                    <Badge variant="approved" className="text-xs">Approved</Badge>
                   )}
                 </div>
-                <p className="text-sm text-muted-foreground line-clamp-2">{a.content}</p>
-                <p className="text-xs text-muted-foreground mt-1">
+                <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{a.content}</p>
+                <p className="text-[10px] text-muted-foreground mt-3 uppercase tracking-wider font-semibold">
                   {new Date(a.created_at).toLocaleDateString("en-IN", {
                     year: "numeric", month: "short", day: "numeric",
                   })}

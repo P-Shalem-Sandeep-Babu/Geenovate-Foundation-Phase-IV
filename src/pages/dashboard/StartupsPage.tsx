@@ -44,10 +44,10 @@ interface StartupPitch { id: string; startup_id: string; title: string; pitch_li
 interface StartupScore { id: string; startup_id: string; reviewer_id: string; innovation_score: number; market_score: number; execution_score: number; team_score: number; total_score: number; feedback: string | null; created_at: string; }
 interface Cohort { id: string; name: string; }
 
-const STATUS_CONFIG: Record<string, { label: string; className: string; icon: React.ReactNode }> = {
-  idea:      { label: "Idea",      className: "bg-amber-500/15 text-amber-500 border-amber-500/20 shadow-[0_0_10px_rgba(245,158,11,0.1)]", icon: <Target className="h-3 w-3" /> },
-  building:  { label: "Building",  className: "bg-indigo-500/15 text-indigo-400 border-indigo-500/20 shadow-[0_0_10px_rgba(99,102,241,0.1)]",   icon: <Rocket className="h-3 w-3" /> },
-  launched:  { label: "Launched",  className: "bg-emerald-500/15 text-emerald-500 border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.1)]", icon: <CheckCircle className="h-3 w-3" /> },
+const STATUS_CONFIG: Record<string, { label: string; variant: "under_review" | "pending" | "active" }> = {
+  idea:      { label: "Idea",      variant: "under_review" }, // Yellow/Amber
+  building:  { label: "Building",  variant: "pending" }, // Primary/Slate
+  launched:  { label: "Launched",  variant: "active" }, // Emerald
 };
 
 const STAGES = ["idea", "validation", "prototype", "mvp", "scaling"];
@@ -361,7 +361,7 @@ export default function StartupsPage() {
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between mb-1">
                     <h3 className="font-semibold text-sm leading-snug">{s.name}</h3>
-                    <Badge variant="secondary" className={`text-xs flex items-center gap-1 shrink-0 ml-2 ${sc.className}`}>{sc.icon}{sc.label}</Badge>
+                    <Badge variant={sc.variant as any} className="text-xs flex items-center gap-1 shrink-0 ml-2 capitalize">{sc.label}</Badge>
                   </div>
                   {s.domain && <p className="text-xs text-muted-foreground mb-2">{s.domain}</p>}
                   <div className="flex items-center justify-between gap-2 mt-3">
@@ -388,9 +388,11 @@ export default function StartupsPage() {
                 <div className="flex items-center gap-2 flex-wrap">
                   <h2 className="font-display text-xl font-bold">{selectedStartup.name}</h2>
                   <Badge variant="outline" className="capitalize text-xs font-semibold">{selectedStartup.stage || "idea"}</Badge>
-                  <Badge variant="secondary" className={`text-xs flex items-center gap-1 ${STATUS_CONFIG[selectedStartup.status]?.className}`}>
-                    {STATUS_CONFIG[selectedStartup.status]?.icon}{STATUS_CONFIG[selectedStartup.status]?.label}
-                  </Badge>
+                  {STATUS_CONFIG[selectedStartup.status] && (
+                    <Badge variant={STATUS_CONFIG[selectedStartup.status].variant as any} className="capitalize text-xs">
+                      {STATUS_CONFIG[selectedStartup.status].label}
+                    </Badge>
+                  )}
                 </div>
                 {selectedStartup.domain && <p className="text-sm text-muted-foreground">{selectedStartup.domain}</p>}
               </div>

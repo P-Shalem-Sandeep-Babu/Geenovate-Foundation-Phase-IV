@@ -27,11 +27,11 @@ interface StartupIdea {
 }
 interface ProfileRow { id: string; user_id: string; full_name: string; email: string; }
 
-const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string }> = {
-  pending:      { label: "Pending",      color: "text-yellow-700 dark:text-yellow-400", bg: "bg-yellow-100 dark:bg-yellow-900/30 border-yellow-200" },
-  under_review: { label: "Under Review", color: "text-blue-700 dark:text-blue-400",     bg: "bg-blue-100 dark:bg-blue-900/30 border-blue-200"   },
-  approved:     { label: "Approved",     color: "text-green-700 dark:text-green-400",   bg: "bg-green-100 dark:bg-green-900/30 border-green-200"  },
-  rejected:     { label: "Rejected",     color: "text-red-700 dark:text-red-400",       bg: "bg-red-100 dark:bg-red-900/30 border-red-200"      },
+const STATUS_CONFIG: Record<string, { label: string; variant: "pending" | "under_review" | "approved" | "rejected" }> = {
+  pending:      { label: "Pending",      variant: "pending" },
+  under_review: { label: "Under Review", variant: "under_review" },
+  approved:     { label: "Approved",     variant: "approved" },
+  rejected:     { label: "Rejected",     variant: "rejected" },
 };
 const STAGE_LABELS: Record<string, string> = {
   idea: "Pure Idea", validation: "Validating", prototype: "Prototyping",
@@ -244,8 +244,8 @@ export default function IdeasPage() {
             onClick={() => setFilterStatus(filterStatus === key ? "all" : key)}
             className={`p-3 rounded-xl border-2 text-left transition-all hover:shadow-sm hover:-translate-y-0.5 ${filterStatus === key ? "ring-2 ring-primary/40 border-primary/30" : "border-border/60 hover:border-primary/30"} bg-card`}
           >
-            <p className={`text-xs font-semibold ${cfg.color}`}>{cfg.label}</p>
-            <p className="text-2xl font-bold mt-1">{ideas.filter(i => i.status === key).length}</p>
+            <p className="text-xs font-semibold text-muted-foreground">{cfg.label}</p>
+            <p className="text-2xl font-bold mt-1 tracking-tight">{ideas.filter(i => i.status === key).length}</p>
           </button>
         ))}
       </div>
@@ -280,7 +280,7 @@ export default function IdeasPage() {
                 <CardContent className="p-5 flex-1 flex flex-col">
                   <div className="flex justify-between items-start mb-2 gap-2">
                     <h3 className="font-semibold text-base leading-tight line-clamp-2">{idea.title}</h3>
-                    <Badge className={`shrink-0 text-[11px] border font-semibold capitalize ${cfg.bg} ${cfg.color}`}>{cfg.label}</Badge>
+                    <Badge variant={cfg.variant as any} className="shrink-0 text-[11px] capitalize">{cfg.label}</Badge>
                   </div>
                   {idea.domain && (
                     <span className="text-xs text-muted-foreground bg-muted/60 px-2 py-0.5 rounded-full w-fit mb-3">

@@ -6,55 +6,56 @@
 
 @layer base {
   :root, .dark {
-    --background: 224 40% 4%;
-    --foreground: 210 20% 98%;
+    --background: 224 38% 5%;
+    --foreground: 215 20% 96%;
 
-    /* Enhanced Glass Card Backgrounds */
-    --card: 224 40% 6%;
-    --card-foreground: 210 20% 98%;
+    /* Card Backgrounds */
+    --card: 224 36% 7%;
+    --card-foreground: 215 20% 96%;
 
-    --popover: 224 40% 6%;
-    --popover-foreground: 210 20% 98%;
+    --popover: 224 36% 7%;
+    --popover-foreground: 215 20% 96%;
 
-    /* Gen-Z Primary: Vibrant Indigo */
-    --primary: 243 75% 59%;
+    /* Primary: Soft Indigo */
+    --primary: 243 72% 58%;
     --primary-foreground: 0 0% 100%;
 
-    /* Subtle secondary elements */
-    --secondary: 224 30% 12%;
-    --secondary-foreground: 210 20% 98%;
+    /* Secondary */
+    --secondary: 224 28% 12%;
+    --secondary-foreground: 215 18% 90%;
 
-    --muted: 224 30% 15%;
-    --muted-foreground: 215 15% 70%;
+    --muted: 224 28% 14%;
+    --muted-foreground: 215 14% 62%;
 
-    /* Vibrant Accent: Neon Purple */
-    --accent: 270 95% 65%;
+    /* Accent: Violet */
+    --accent: 268 85% 62%;
     --accent-foreground: 0 0% 100%;
 
-    /* Destructive Red with Neon feel */
-    --destructive: 0 84% 60%;
+    /* Destructive */
+    --destructive: 0 80% 58%;
     --destructive-foreground: 0 0% 100%;
 
-    /* Ambient borders */
-    --border: 224 30% 15%;
-    --input: 224 30% 15%;
-    --ring: 243 75% 59%;
+    /* Borders & Inputs */
+    --border: 224 26% 14%;
+    --input: 224 26% 14%;
+    --ring: 243 72% 58%;
 
-    /* Full rounded aesthetics */
-    --radius: 1rem;
+    /* Radius — slightly less aggressive for professional look */
+    --radius: 0.75rem;
 
-    /* Glass Sidebar */
+    /* Sidebar */
     --sidebar-background: 224 40% 4%;
-    --sidebar-foreground: 210 20% 90%;
-    --sidebar-primary: 243 75% 59%;
+    --sidebar-foreground: 215 18% 88%;
+    --sidebar-primary: 243 72% 58%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 224 30% 15%;
-    --sidebar-accent-foreground: 210 20% 90%;
-    --sidebar-border: 224 30% 12%;
-    --sidebar-ring: 243 75% 59%;
+    --sidebar-accent: 224 28% 12%;
+    --sidebar-accent-foreground: 215 18% 88%;
+    --sidebar-border: 224 28% 11%;
+    --sidebar-ring: 243 72% 58%;
 
-    /* Extended Gradients */
-    --hero-gradient: linear-gradient(135deg, hsl(243 75% 59%), hsl(270 95% 65%));
+    /* Extended design tokens */
+    --hero-gradient: linear-gradient(135deg, hsl(243 72% 58%), hsl(268 85% 62%));
+    --surface-elevated: 224 34% 9%;
   }
 }
 
@@ -66,7 +67,9 @@
     @apply bg-background text-foreground font-sans antialiased;
   }
   h1, h2, h3, h4 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
 }
 
@@ -74,36 +77,56 @@
   .text-balance {
     text-wrap: balance;
   }
-  
-  /* Glassmorphism utilities */
+
+  /* Glassmorphism panel */
   .glass-panel {
-    @apply bg-background/40 backdrop-blur-xl border border-white/10 shadow-xl;
-  }
-  
-  /* Modern Card interactions */
-  .card-hover {
-    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(0,0,0,0.5)] hover:border-primary/30;
+    @apply bg-background/50 backdrop-blur-xl border border-white/8 shadow-xl;
   }
 
-  /* Vibrant Button interactions */
+  /* Interactive card lift */
+  .card-interactive {
+    @apply transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] hover:border-primary/25;
+  }
+
+  /* Improved button press */
   .btn-transition {
-    @apply transition-all duration-200 active:scale-[0.96] hover:shadow-[0_0_20px_rgba(99,102,241,0.4)];
+    @apply transition-all duration-150 active:scale-[0.96];
   }
 
-  /* Smooth page load animation */
+  /* Status badge colours */
+  .badge-active {
+    @apply bg-emerald-500/15 text-emerald-400 border border-emerald-500/25;
+  }
+  .badge-approved {
+    @apply bg-blue-500/15 text-blue-400 border border-blue-500/25;
+  }
+  .badge-rejected {
+    @apply bg-red-500/15 text-red-400 border border-red-500/25;
+  }
+  .badge-under-review {
+    @apply bg-amber-500/15 text-amber-400 border border-amber-500/25;
+  }
+  .badge-pending {
+    @apply bg-slate-500/15 text-slate-400 border border-slate-500/25;
+  }
+
+  /* Page fade-in */
   .page-fade-in {
     animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(12px) scale(0.99); }
-    to   { opacity: 1; transform: translateY(0) scale(1); }
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
   /* Skeleton shimmer */
   .skeleton-shimmer {
-    background: linear-gradient(90deg, hsl(var(--muted)/0.3) 25%, hsl(var(--muted)/0.7) 50%, hsl(var(--muted)/0.3) 75%);
+    background: linear-gradient(90deg,
+      hsl(var(--muted)/0.3) 25%,
+      hsl(var(--muted)/0.6) 50%,
+      hsl(var(--muted)/0.3) 75%);
     background-size: 200% 100%;
-    animation: shimmer 1.5s infinite linear;
+    animation: shimmer 1.6s infinite linear;
   }
   @keyframes shimmer {
     0%   { background-position: 200% 0; }

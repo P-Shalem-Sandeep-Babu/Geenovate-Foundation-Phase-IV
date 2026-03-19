@@ -7,7 +7,7 @@ const Sk = ({ className }: SkeletonProps) => (
 
 export function SkeletonCard() {
   return (
-    <div className="border rounded-xl p-4 space-y-3 bg-card">
+    <div className="border border-border/50 rounded-xl p-4 space-y-3 bg-card/60">
       <div className="flex justify-between items-start">
         <Sk className="h-4 w-36" />
         <Sk className="h-5 w-16 rounded-full" />

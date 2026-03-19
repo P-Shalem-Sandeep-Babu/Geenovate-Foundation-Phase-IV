@@ -58,11 +58,11 @@ export default function ProfilePage() {
     onError: (e: Error) => toast({ title: "Error", description: e.message, variant: "destructive" }),
   });
 
-  const STATUS_COLOR: Record<string, string> = {
-    active: "bg-emerald-500/15 text-emerald-500 border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.1)]",
-    inactive: "bg-muted text-muted-foreground border-white/5",
-    suspended: "bg-red-500/15 text-red-500 border-red-500/20 shadow-[0_0_10px_rgba(239,68,68,0.1)]",
-    alumni: "bg-purple-500/15 text-purple-400 border-purple-500/20 shadow-[0_0_10px_rgba(168,85,247,0.1)]",
+  const STATUS_VARIANT: Record<string, "active" | "secondary" | "destructive" | "approved"> = {
+    active: "active",
+    inactive: "secondary",
+    suspended: "destructive",
+    alumni: "approved",
   };
 
   const ROLE_LABEL: Record<string, string> = {
@@ -98,7 +98,7 @@ export default function ProfilePage() {
             </p>
             <div className="flex flex-wrap gap-1.5 mt-2">
               {profile?.status && (
-                <Badge className={`text-xs border capitalize ${STATUS_COLOR[profile.status] ?? STATUS_COLOR.inactive}`}>{profile.status}</Badge>
+                <Badge variant={(STATUS_VARIANT[profile.status] || "secondary") as any} className="text-xs uppercase px-2 font-bold tracking-wider">{profile.status}</Badge>
               )}
               {roles.map(r => (
                 <Badge key={r} className="text-xs bg-primary/10 text-primary border-primary/20">

@@ -231,18 +231,18 @@ export default function DashboardHome() {
       </div>
 
       {/* Stat Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
         {statCards.map((c, i) => (
           <motion.div key={c.label} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}>
-            <Card className={`bg-gradient-to-br ${c.gradient} border-border/50 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200`}>
+            <Card className={`bg-gradient-to-br ${c.gradient} border-border/40 card-interactive cursor-default`}>
               <CardContent className="p-4">
                 <div className="flex items-start justify-between mb-3">
                   <div className={`p-2 rounded-lg ${c.iconBg}`}>
                     <c.icon className="h-4 w-4" />
                   </div>
                 </div>
-                <p className="text-2xl font-bold">{c.value}</p>
-                <p className="text-xs text-muted-foreground mt-0.5">{c.label}</p>
+                <p className="text-2xl font-bold tracking-tight">{c.value}</p>
+                <p className="text-xs text-muted-foreground mt-0.5 font-medium">{c.label}</p>
               </CardContent>
             </Card>
           </motion.div>
