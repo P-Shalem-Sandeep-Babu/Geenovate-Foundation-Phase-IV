@@ -3,10 +3,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard, Users, Bell, Shield, LogOut, Menu, X, Calendar,
-  Rocket, Lightbulb, UserCircle, CheckCheck
+  Rocket, Lightbulb, UserCircle, Moon, Sun
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import { useNotifications } from "@/hooks/useNotifications";
 import logo from "@/assets/logo.png";
 
 const navLinks = [
@@ -19,31 +18,19 @@ const navLinks = [
   { label: "Audit Logs",    path: "/dashboard/audit-logs",    icon: Shield,          perm: "audit.view" },
 ];
 
-const NOTIF_TYPE_STYLE: Record<string, string> = {
-  info:     "bg-blue-500/15 text-blue-400",
-  success:  "bg-emerald-500/15 text-emerald-400",
-  warning:  "bg-amber-500/15 text-amber-400",
-  deadline: "bg-red-500/15 text-red-400",
-};
-
-function timeAgo(iso: string) {
-  const secs = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
-  if (secs < 60) return "just now";
-  if (secs < 3600) return `${Math.floor(secs / 60)}m ago`;
-  if (secs < 86400) return `${Math.floor(secs / 3600)}h ago`;
-  return `${Math.floor(secs / 86400)}d ago`;
-}
-
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [notifOpen, setNotifOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { profile, signOut, hasPermission } = useAuth();
-  const { notifications, unreadCount, markRead, markAllRead } = useNotifications();
 
   const visibleLinks = navLinks.filter(l => !l.perm || hasPermission(l.perm));
   const handleSignOut = async () => { await signOut(); navigate("/login"); };
+
+  const toggleTheme = () => {
+    const isDark = document.documentElement.classList.toggle("dark");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  };
 
   const isActive = (path: string) =>
     path === "/dashboard"
@@ -75,48 +62,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </Link>
     );
   };
-
-  /* ── Notification Panel ── */
-  const NotifPanel = () => (
-    <div className="absolute right-0 top-full mt-2 w-80 bg-card border border-border rounded-xl shadow-2xl z-50 overflow-hidden">
-      <div className="flex items-center justify-between px-4 py-3 border-b border-border">
-        <span className="text-sm font-semibold">Notifications</span>
-        {unreadCount > 0 && (
-          <button
-            onClick={() => markAllRead.mutate()}
-            className="text-xs text-primary hover:text-primary/80 flex items-center gap-1 transition-colors"
-          >
-            <CheckCheck className="h-3 w-3" /> Mark all read
-          </button>
-        )}
-      </div>
-      <div className="max-h-72 overflow-y-auto divide-y divide-border/50">
-        {notifications.length === 0 ? (
-          <p className="text-sm text-muted-foreground text-center py-8">No notifications yet</p>
-        ) : notifications.map(n => (
-          <div
-            key={n.id}
-            className={`px-4 py-3 hover:bg-muted/30 cursor-pointer transition-colors ${!n.is_read ? "bg-primary/4" : ""}`}
-            onClick={() => markRead.mutate(n.id)}
-          >
-            <div className="flex items-start gap-3">
-              <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-md capitalize shrink-0 mt-0.5 ${NOTIF_TYPE_STYLE[n.type] ?? NOTIF_TYPE_STYLE.info}`}>
-                {n.type}
-              </span>
-              <div className="flex-1 min-w-0">
-                <p className={`text-xs font-medium leading-snug ${!n.is_read ? "text-foreground" : "text-muted-foreground"}`}>
-                  {n.title}
-                </p>
-                <p className="text-xs text-muted-foreground/70 mt-0.5 line-clamp-2">{n.message}</p>
-                <p className="text-[10px] text-muted-foreground/40 mt-1">{timeAgo(n.created_at)}</p>
-              </div>
-              {!n.is_read && <span className="h-1.5 w-1.5 rounded-full bg-primary shrink-0 mt-1.5" />}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
 
   /* ── Sidebar Content ── */
   const SidebarContent = () => (
@@ -163,29 +108,21 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <div className="absolute bottom-[-15%] right-[-8%] w-[25%] h-[25%] bg-accent/15 rounded-full blur-[110px] pointer-events-none" />
 
       {/* ── Desktop Sidebar ── */}
-      <aside className="hidden lg:flex flex-col w-60 border-r border-white/5 bg-background/50 backdrop-blur-xl shrink-0 relative z-10">
+      <aside className="hidden lg:flex flex-col w-60 border-r border-sidebar-border bg-sidebar-background shrink-0 sticky top-0 h-screen z-10 transition-colors">
         {/* Sidebar header */}
         <div className="px-4 py-4 border-b border-sidebar-border flex items-center justify-between">
           <img src={logo} alt="Geenovate" className="h-8 object-contain" />
-          <div className="relative">
+          <div className="flex items-center gap-2">
             <button
-              onClick={() => setNotifOpen(v => !v)}
-              className="p-1.5 rounded-lg hover:bg-sidebar-accent/60 transition-colors relative"
+              onClick={toggleTheme}
+              className="p-1.5 rounded-lg hover:bg-sidebar-accent/60 transition-colors"
+              title="Toggle Theme"
             >
-              <Bell className="h-4 w-4 text-sidebar-foreground/50" />
-              {unreadCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 h-3.5 w-3.5 bg-primary text-primary-foreground text-[9px] font-bold rounded-full flex items-center justify-center">
-                  {unreadCount > 9 ? "9+" : unreadCount}
-                </span>
-              )}
+              <Moon className="h-4 w-4 text-sidebar-foreground/50 hidden dark:block" />
+              <Sun className="h-4 w-4 text-sidebar-foreground/50 block dark:hidden" />
             </button>
-            {notifOpen && (
-              <>
-                <div className="fixed inset-0 z-40" onClick={() => setNotifOpen(false)} />
-                <div className="relative z-50"><NotifPanel /></div>
-              </>
-            )}
-          </div>
+
+        </div>
         </div>
         <SidebarContent />
       </aside>
@@ -193,29 +130,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* ── Main Content ── */}
       <div className="flex-1 flex flex-col min-w-0 relative z-10">
         {/* Mobile Header */}
-        <header className="lg:hidden sticky top-0 z-50 border-b border-white/5 bg-background/70 backdrop-blur-2xl">
-          <div className="flex items-center justify-between h-13 px-4">
+        <header className="lg:hidden sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-2xl transition-colors">
+          <div className="flex items-center justify-between h-14 px-4">
             <img src={logo} alt="Geenovate" className="h-7" />
             <div className="flex items-center gap-1">
-              <div className="relative">
-                <button
-                  onClick={() => setNotifOpen(v => !v)}
-                  className="p-2 rounded-lg hover:bg-muted/50 relative transition-colors"
-                >
-                  <Bell className="h-4.5 w-4.5" />
-                  {unreadCount > 0 && (
-                    <span className="absolute -top-0.5 -right-0.5 h-3.5 w-3.5 bg-primary text-primary-foreground text-[9px] font-bold rounded-full flex items-center justify-center">
-                      {unreadCount > 9 ? "9+" : unreadCount}
-                    </span>
-                  )}
-                </button>
-                {notifOpen && (
-                  <>
-                    <div className="fixed inset-0 z-40" onClick={() => setNotifOpen(false)} />
-                    <div className="relative z-50"><NotifPanel /></div>
-                  </>
-                )}
-              </div>
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-lg hover:bg-muted/50 transition-colors"
+                title="Toggle Theme"
+              >
+                <Moon className="h-4.5 w-4.5 hidden dark:block" />
+                <Sun className="h-4.5 w-4.5 block dark:hidden" />
+              </button>
+
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
                 className="p-2 rounded-lg hover:bg-muted/50 transition-colors"

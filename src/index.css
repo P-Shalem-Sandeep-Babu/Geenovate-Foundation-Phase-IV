@@ -5,45 +5,81 @@
 @tailwind utilities;
 
 @layer base {
-  :root, .dark {
+  :root {
+    --background: 220 25% 97.5%;
+    --foreground: 222 47% 11.2%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11.2%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11.2%;
+
+    --primary: 243 72% 58%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 20% 94%;
+    --secondary-foreground: 222 47% 11.2%;
+
+    --muted: 210 20% 94%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 268 85% 62%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 15% 91%;
+    --input: 220 15% 91%;
+    --ring: 243 72% 58%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 243 72% 58%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 20% 94%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 15% 91%;
+    --sidebar-ring: 243 72% 58%;
+
+    --hero-gradient: linear-gradient(135deg, hsl(243 72% 58%), hsl(268 85% 62%));
+    --surface-elevated: 0 0% 100%;
+  }
+
+  .dark {
     --background: 224 38% 5%;
     --foreground: 215 20% 96%;
 
-    /* Card Backgrounds */
     --card: 224 36% 7%;
     --card-foreground: 215 20% 96%;
 
     --popover: 224 36% 7%;
     --popover-foreground: 215 20% 96%;
 
-    /* Primary: Soft Indigo */
     --primary: 243 72% 58%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary */
     --secondary: 224 28% 12%;
     --secondary-foreground: 215 18% 90%;
 
     --muted: 224 28% 14%;
     --muted-foreground: 215 14% 62%;
 
-    /* Accent: Violet */
     --accent: 268 85% 62%;
     --accent-foreground: 0 0% 100%;
 
-    /* Destructive */
     --destructive: 0 80% 58%;
     --destructive-foreground: 0 0% 100%;
 
-    /* Borders & Inputs */
     --border: 224 26% 14%;
     --input: 224 26% 14%;
     --ring: 243 72% 58%;
 
-    /* Radius — slightly less aggressive for professional look */
     --radius: 0.75rem;
 
-    /* Sidebar */
     --sidebar-background: 224 40% 4%;
     --sidebar-foreground: 215 18% 88%;
     --sidebar-primary: 243 72% 58%;
@@ -53,7 +89,6 @@
     --sidebar-border: 224 28% 11%;
     --sidebar-ring: 243 72% 58%;
 
-    /* Extended design tokens */
     --hero-gradient: linear-gradient(135deg, hsl(243 72% 58%), hsl(268 85% 62%));
     --surface-elevated: 224 34% 9%;
   }
@@ -85,7 +120,7 @@
 
   /* Interactive card lift */
   .card-interactive {
-    @apply transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] hover:border-primary/25;
+    @apply transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-black/40 hover:border-primary/25;
   }
 
   /* Improved button press */
@@ -95,19 +130,19 @@
 
   /* Status badge colours */
   .badge-active {
-    @apply bg-emerald-500/15 text-emerald-400 border border-emerald-500/25;
+    @apply bg-emerald-500/10 text-emerald-700 border border-emerald-500/20 dark:bg-emerald-500/15 dark:text-emerald-400 dark:border-emerald-500/25;
   }
   .badge-approved {
-    @apply bg-blue-500/15 text-blue-400 border border-blue-500/25;
+    @apply bg-blue-500/10 text-blue-700 border border-blue-500/20 dark:bg-blue-500/15 dark:text-blue-400 dark:border-blue-500/25;
   }
   .badge-rejected {
-    @apply bg-red-500/15 text-red-400 border border-red-500/25;
+    @apply bg-red-500/10 text-red-700 border border-red-500/20 dark:bg-red-500/15 dark:text-red-400 dark:border-red-500/25;
   }
   .badge-under-review {
-    @apply bg-amber-500/15 text-amber-400 border border-amber-500/25;
+    @apply bg-amber-500/10 text-amber-700 border border-amber-500/20 dark:bg-amber-500/15 dark:text-amber-400 dark:border-amber-500/25;
   }
   .badge-pending {
-    @apply bg-slate-500/15 text-slate-400 border border-slate-500/25;
+    @apply bg-slate-500/10 text-slate-700 border border-slate-500/20 dark:bg-slate-500/15 dark:text-slate-400 dark:border-slate-500/25;
   }
 
   /* Page fade-in */

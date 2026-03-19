@@ -9,7 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import logo from "@/assets/logo.png";
-import loginBg from "@/assets/login-bg.png";
+import loginBg from "@/assets/Geenovate Entrance.avif";
 
 const DOMAIN = "@gcet.edu.in";
 
